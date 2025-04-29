@@ -6,11 +6,11 @@
 [packagist-url]: https://packagist.org/packages/mamluk/kipchak
 [slim-url]: https://www.slimframework.com/
 
-[![Version][version-badge]][packagist-url]
-[![Downloads][downloads-badge]][packagist-url]
-[![Unstable][unstable-badge]][packagist-url]
-[![License][license-badge]][packagist-url]
-[![PHP Version][php-badge]][packagist-url]
+![Version][version-badge]
+![Downloads][downloads-badge]
+![Unstable][unstable-badge]
+![License][license-badge]
+![PHP Version][php-badge]
 
 <img src=".mamluk/logo.svg" alt="Kipchak by Mamluk" title="Kipchak by Mamluk - an API Toolkit" />
 
