@@ -37,9 +37,10 @@ To see Kipchak in action, visit our [template repository](https://1x.ax/mamluk/k
 
 ## Technical Stack
 
-- **Framework**: Built on [Slim Framework][https://www.slimframework.com]
+- **Framework**: Built on [Slim Framework](https://www.slimframework.com)
 - **Memory Footprint**: Lightweight compared to Symfony/Laravel
 - **Integration**: Compatible with Symfony/Laravel libraries
+- **PHP 8.2+**
 
 ## Credits
 
