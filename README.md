@@ -18,7 +18,7 @@
 
 ## Overview
 
-Kipchak is an API Development Kit (ADK) built on [Slim Framework][https://www.slimframework.com], designed for rapid API development. Written in PHP, it combines years of production experience handling thousands of concurrent requests.
+Kipchak is an API Development Kit (ADK) built on [Slim Framework]https://www.slimframework.com, designed for rapid API development. Written in PHP, it combines years of production experience handling thousands of concurrent requests.
 
 ## Quick Start
 
