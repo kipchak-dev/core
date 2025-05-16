@@ -24,7 +24,7 @@ Kipchak is an API Development Kit (ADK) built on [Slim Framework](https://www.sl
 
 To see Kipchak in action, visit our [template repository](https://1x.ax/mamluk/kipchak/template).
 
-## Features
+## Features in the Community Edition
 
 | Category | Components |
 |----------|------------|
@@ -33,7 +33,19 @@ To see Kipchak in action, visit our [template repository](https://1x.ax/mamluk/k
 | Database | • Doctrine DBAL and ORM<br>• CouchDB Client |
 | Authentication | • OAuth 2 with JWKS<br>• Key-based authentication |
 | Development Tools | • Object Mapping (Valinor)<br>• Pre-configured testing |
-| Infrastructure | • Base Dockerfile<br>• NGINX Unit/Apache support |
+| Infrastructure | • Base Dockerfile<br>• NGINX Unit support |
+
+## Enterprise Features (Paid)
+
+* **Valkey** support for caching
+* **JWT** authentication / authorisation with a public key
+* **Binary only or security verified** containers
+* **RBAC Management**
+* **Personal Access Token Management**
+* **Rate limting** by IP address / user / API key
+* **OAuth 2 Client** with simplified token management for upstream APIs
+
+To learn more about Kipchak Enterprise Edition, please reach out via https://mamluk.net/contact.
 
 ## Technical Stack
 
