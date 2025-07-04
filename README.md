@@ -26,14 +26,15 @@ To see Kipchak in action, visit our [template repository](https://1x.ax/mamluk/k
 
 ## Features in the Community Edition
 
-| Category | Components |
-|----------|------------|
-| Core Features | • Easy config management<br>• Consistent bootstrapping<br>• Dependency injection<br>• Middleware injection |
-| Caching | • Symfony Cache<br>• Memcached support<br>• File System Caching |
-| Database | • Doctrine DBAL and ORM<br>• CouchDB Client |
-| Authentication | • OAuth 2 with JWKS<br>• Key-based authentication |
-| Development Tools | • Object Mapping (Valinor)<br>• Pre-configured testing |
-| Infrastructure | • Base Dockerfile<br>• NGINX Unit support |
+| Category          | Components                                                                                                 |
+|-------------------|------------------------------------------------------------------------------------------------------------|
+| Core Features     | • Easy config management<br>• Consistent bootstrapping<br>• Dependency injection<br>• Middleware injection |
+| Caching           | • Symfony Cache<br>• Memcached support<br>• File System Caching                                            |
+| Database          | • Doctrine DBAL and ORM<br>• CouchDB Client                                                                |
+| Authentication    | • OAuth 2 with JWKS<br>• Key-based authentication                                                          |
+| Development Tools | • Object Mapping (Valinor)<br>• Pre-configured testing                                                     |
+| Infrastructure    | • Base Dockerfile<br>• NGINX Unit support                                                                  |
+| Documentation     | • OpenAPI using Zircotte Swagger PHP                                                                       |
 
 ## Enterprise Features (Paid)
 
@@ -52,18 +53,18 @@ To learn more about Kipchak Enterprise Edition, please reach out via https://mam
 - **Framework**: Built on [Slim Framework](https://www.slimframework.com)
 - **Memory Footprint**: Lightweight compared to Symfony/Laravel
 - **Integration**: Compatible with Symfony/Laravel libraries
-- **PHP 8.2+**
+- **PHP 8.3+**
 
 ## Credits
 
-| Component | Provider |
-|-----------|----------|
-| Framework | Slim Framework |
-| Cache/ORM | Symfony |
-| HTTP Client | Laravel |
-| Logging | Monolog |
+| Component      | Provider            |
+|----------------|---------------------|
+| Framework      | Slim Framework      |
+| Cache/ORM      | Symfony             |
+| HTTP Client    | Laravel             |
+| Logging        | Monolog             |
 | Object Mapping | Team CuyZ (Valinor) |
-| Session Handling | Bryan Horna |
+| Open API Docs  | Zircotte            |
 
 For complete dependencies, see our [composer.json](https://1x.ax/mamluk/kipchak/core/~files/master/composer.json).
 

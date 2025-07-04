@@ -12,19 +12,19 @@
     "sort-packages": true
   },
   "require": {
-    "php": ">=8.2",
-    "bryanjhv/slim-session": "^4.1",
-    "doctrine/orm": "^2.17",
+    "php": ">=8.3",
+    "doctrine/orm": "^3.5",
+    "zircote/swagger-php": "^4.11",
     "firebase/php-jwt": "^6.9",
     "guzzlehttp/guzzle": "^7.8",
     "illuminate/http": "^9.52",
     "monolog/monolog": "^3.5",
     "php-di/php-di": "^6.4",
     "slim/psr7": "^1.6",
-    "slim/slim": "^4.12",
-    "symfony/cache": "^6.3",
+    "slim/slim": "^4.14",
+    "symfony/cache": "^6.4",
     "mamluk/couchdb": "0.6",
-    "cuyz/valinor": "^1.7"
+    "cuyz/valinor": "^1.17"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.6"
