@@ -55,7 +55,7 @@ To learn more about Kipchak Enterprise Edition, please reach out via https://mam
 
 ## Key Differences between versions 0.x and versions 1.x
 
-* Session management has been used - it has not been used even once in an implementation as it's always best to keep APIs stateless
+* Session management has not been used even once in a 0.x implementation as it's always best to keep APIs stateless so it has been removed
 * Zircote Swagger PHP has been added for generating OpenAPI documentation from PHP Attributes
 * Doctrine has now been upgraded to the stable version 3.5+. *This may result in breaking changes*, especially for migrations and if you were using / extending some core Doctrine capabilities without specifying return types.
 
