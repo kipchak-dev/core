@@ -12,7 +12,7 @@
 ![License][license-badge]
 ![PHP Version][php-badge]
 
-<img src=".mamluk/logo.svg" alt="Kipchak by Mamluk" title="Kipchak by Mamluk - an API Toolkit" />
+<img src="https://1x.ax/mamluk/kipchak/core/~raw/master/.mamluk/logo.svg" alt="Kipchak by Mamluk" title="Kipchak by Mamluk - an API Toolkit" />
 
 # Kipchak by Mamluk
 
