@@ -22,7 +22,7 @@ Kipchak is an API Development Kit (ADK) built on [Slim Framework](https://www.sl
 
 ## Quick Start
 
-To see Kipchak in action, visit our [template repository](https://1x.ax/mamluk/kipchak/template).
+To see Kipchak in action, visit our [starter repository](https://1x.ax/mamluk/kipchak/starter).
 
 ## Features in the Community Edition
 
@@ -48,6 +48,17 @@ To see Kipchak in action, visit our [template repository](https://1x.ax/mamluk/k
 
 To learn more about Kipchak Enterprise Edition, please reach out via https://mamluk.net/contact.
 
+## Additional Open Source Components you can use with Kipchak
+| Category          | Components                                                            |
+|-------------------|-----------------------------------------------------------------------|
+| Message Queues    | Tavashan by Mamluk (https://1x.ax/mamluk/tavshan - a Rabbit MQ Client |
+
+## Key Differences between versions 0.x and versions 1.x
+
+* Session management has been used - it has not been used even once in an implementation as it's always best to keep APIs stateless
+* Zircote Swagger PHP has been added for generating OpenAPI documentation from PHP Attributes
+* Doctrine has now been upgraded to the stable version 3.5+. *This may result in breaking changes*, especially for migrations and if you were using / extending some core Doctrine capabilities without specifying return types.
+
 ## Technical Stack
 
 - **Framework**: Built on [Slim Framework](https://www.slimframework.com)
@@ -57,14 +68,15 @@ To learn more about Kipchak Enterprise Edition, please reach out via https://mam
 
 ## Credits
 
-| Component      | Provider            |
-|----------------|---------------------|
-| Framework      | Slim Framework      |
-| Cache/ORM      | Symfony             |
-| HTTP Client    | Laravel             |
-| Logging        | Monolog             |
-| Object Mapping | Team CuyZ (Valinor) |
-| Open API Docs  | Zircotte            |
+| Component      | Provider              |
+|----------------|-----------------------|
+| Framework      | Slim Framework        |
+| Cache/ORM      | Symfony               |
+| HTTP Client    | Laravel               |
+| Logging        | Monolog               |
+| Object Mapping | Team CuyZ (Valinor)   |
+| Open API Docs  | Zircotte              |
+| Couch DB       | Mamluk CouchDB Client |
 
 For complete dependencies, see our [composer.json](https://1x.ax/mamluk/kipchak/core/~files/master/composer.json).
 
@@ -72,4 +84,4 @@ For complete dependencies, see our [composer.json](https://1x.ax/mamluk/kipchak/
 
 - **Company**: [Mamluk](https://mamluk.net)
 - **Name Origin**: Named after the Turkic Kipchak family which founded the Mamluk Sultanate of Cairo in 1250
-- **Documentation**: Available at [Kipchak Template](https://1x.ax/mamluk/kipchak/template)
+- **Documentation**: Available at [Kipchak Starter](https://1x.ax/mamluk/kipchak/starter)
