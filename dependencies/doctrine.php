@@ -76,7 +76,7 @@ if (isset($container->get('config')['kipchak.doctrine']['orm'])  && $container->
                     $cache
                 );
             } else { // default to attributes if not set
-                $emConfig = ORMSetup::createAttributeMetadataConfiguration(
+                $emConfig = ORMSetup::createAttributeMetadataConfig(
                     $emConnection['metadata_dirs'],
                     $emConnection['dev_mode'],
                     null,
