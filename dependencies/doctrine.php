@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\DBAL\Schema\AbstractAsset;
 use Psr\Container\ContainerInterface;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
@@ -21,13 +22,13 @@ if (isset($container->get('config')['kipchak.doctrine']['dbal'])  && $container-
         $container->set('database.doctrine.dbal.' . $dbalConnectionName, function (ContainerInterface $c) use ($dbalConnectionName, $dbalConnection): Connection {
             return DriverManager::getConnection(
                 [
-                    'dbname'    => $dbalConnection['dbname'],
+                    'dbname'    =>  $dbalConnection['dbname'],
                     'user'      =>  $dbalConnection['user'],
                     'password'  =>  $dbalConnection['password'],
                     'host'      =>  $dbalConnection['host'],
                     'driver'    =>  $dbalConnection['driver'],
-                    'port'      => $dbalConnection['port'],
-                    'charset'   => $dbalConnection['charset']
+                    'port'      =>  $dbalConnection['port'],
+                    'charset'   =>  $dbalConnection['charset']
                 ]
             );
         });
@@ -67,28 +68,18 @@ if (isset($container->get('config')['kipchak.doctrine']['orm'])  && $container->
                 }
             }
 
-
-            if ($emConnection['metadata_format'] === 'annotations') {
-                $emConfig = ORMSetup::createAnnotationMetadataConfiguration(
-                    $emConnection['metadata_dirs'],
-                    $emConnection['dev_mode'],
-                    null,
-                    $cache
-                );
-            } else { // default to attributes if not set
-                $emConfig = ORMSetup::createAttributeMetadataConfig(
-                    $emConnection['metadata_dirs'],
-                    $emConnection['dev_mode'],
-                    null,
-                    $cache
-                );
-            }
+            $emConfig = ORMSetup::createAttributeMetadataConfig(
+                $emConnection['metadata_dirs'],
+                $emConnection['dev_mode'],
+                null,
+                $cache
+            );
 
             if (isset($emConnection['schema_filter_expression'])) {
-                $emConfig->setSchemaAssetsFilter(static function (string|AbstractAsset $assetName) use ($emConnection): bool {
-                    if ($assetName instanceof AbstractAsset) {
-                        $assetName = $assetName->getName();
-                    }
+                $emConfig->setSchemaAssetsFilter(static function (string $assetName) use ($emConnection): bool {
+                    // if ($assetName instanceof AbstractAsset) {
+                    //    $assetName = $assetName->getName();
+                    //}
 
                     return (bool) preg_match($emConnection['schema_filter_expression'], $assetName);
                 });
