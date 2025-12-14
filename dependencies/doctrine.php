@@ -77,10 +77,6 @@ if (isset($container->get('config')['kipchak.doctrine']['orm'])  && $container->
 
             if (isset($emConnection['schema_filter_expression'])) {
                 $emConfig->setSchemaAssetsFilter(static function (string $assetName) use ($emConnection): bool {
-                    // if ($assetName instanceof AbstractAsset) {
-                    //    $assetName = $assetName->getName();
-                    //}
-
                     return (bool) preg_match($emConnection['schema_filter_expression'], $assetName);
                 });
             }
