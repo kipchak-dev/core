@@ -4,15 +4,16 @@ Use Monolog\Logger;
 use Monolog\Level;
 Use Monolog\Handler\StreamHandler;
 use Psr\Container\ContainerInterface;
+use Mamluk\Kipchak\Driver\Config\Driver as Config;
 
 /**
  * @var $container ContainerInterface
  */
 
-$container->set('logger', function(ContainerInterface $c): Logger {
+$container->set('driver.logger', function(ContainerInterface $c): Logger {
 
-    if (isset($c->get('config')['kipchak.api'])) {
-        $apiConfig = $c->get('config')['kipchak.api'];
+    if (!empty(Config::get('kipchak.api'))) {
+        $apiConfig = Config::get('kipchak.api');
         if (
             isset($apiConfig['loglevel']) &&
             in_array(

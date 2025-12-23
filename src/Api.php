@@ -44,9 +44,7 @@ class Api
         $container = $app->getContainer();
         // Load static functions
         require_once(realpath(__DIR__ . '/Functions.php'));
-        require_once(realpath(__DIR__ . '/../drivers/config.php'));
         require_once(realpath(__DIR__ . '/../drivers/logger.php'));
-        require_once(realpath(__DIR__ . '/../drivers/http.php'));
         /** Load all the dependency files in the /drivers folder of this project **/
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(realpath(__DIR__ . '/../drivers')));
         $dependencies = array_keys(array_filter(iterator_to_array($iterator), function($file) {
@@ -59,14 +57,15 @@ class Api
             }
         }
 
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(realpath(__DIR__ . '/../../../../drivers')));
-        $dependencies = array_keys(array_filter(iterator_to_array($iterator), function($file) {
-            return $file->isFile();
-        }));
-
-        foreach ($dependencies as $dependency) {
-            if (strpos($dependency, '.php') !== false) {
-                require_once(realpath($dependency));
+        /** Load all driver.php files from vendor/kipchak/driver-* subdirectories **/
+        $vendorPath = realpath(__DIR__ . '/../../../../vendor/kipchak');
+        if ($vendorPath && is_dir($vendorPath)) {
+            $driverDirs = glob($vendorPath . '/driver-*', GLOB_ONLYDIR);
+            foreach ($driverDirs as $driverDir) {
+                $driverFile = $driverDir . '/driver.php';
+                if (file_exists($driverFile)) {
+                    require_once($driverFile);
+                }
             }
         }
         /***/
