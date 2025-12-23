@@ -23,7 +23,8 @@
     "slim/psr7": "^1.8",
     "slim/slim": "^4.15",
     "cuyz/valinor": "^1.17",
-    "kipchak/driver-config": "dev-master"
+    "kipchak/driver-config": "dev-master",
+    "kipchak/driver-filecache": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.6"

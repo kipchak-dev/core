@@ -1,5 +1,5 @@
 <?php
-namespace Mamluk\Kipchak;
+namespace Kipchak\Core;
 
 use Slim\Factory\AppFactory;
 use Slim\App;

@@ -2,7 +2,6 @@
 namespace Kipchak\Core\Components\Http;
 
 use Psr\Http\Message\ResponseInterface;
-use Slim\HttpCache\CacheProvider;
 
 class Response
 {
