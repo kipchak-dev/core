@@ -1,14 +1,17 @@
 <?php
 
 use Kipchak\Core\Components\Exceptions\Handlers\DefaultHandler;
+use Kipchak\Driver\Config\Driver as Config;
+use Psr\Container\ContainerInterface;
+use Slim\App;
 
 /**
- * @var \Psr\Container\ContainerInterface $container
- * @var \Slim\App $app
+ * @var ContainerInterface $container
+ * @var App $app
  */
 
 $container = $app->getContainer();
-$api = $container->get('config')['kipchak.api'];
+$api = Config::get('kipchak.api');
 $logExceptions = isset($api['logExceptions']) && (bool) $api['logExceptions'];
 $logExceptionDetails = isset($api['logExceptionDetails']) && (bool) $api['logExceptionDetails'];
 

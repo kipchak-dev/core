@@ -3,6 +3,7 @@
 namespace Kipchak\Core\Components\Middlewares;
 
 use Kipchak\Core\Components\Http;
+use Kipchak\Driver\Filecache\Driver;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -26,8 +27,8 @@ class AuthJwks
     public function __construct(ContainerInterface $container, array $scopes = [])
     {
         $this->container = $container;
-        $this->cache = $container->get('cache.file');
-        $this->log = $container->get('logger');
+        $this->cache = Driver::get();
+        $this->log = $container->get('driver.logger');
         $this->scopes = $scopes;
 
     }
