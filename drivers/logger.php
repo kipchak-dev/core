@@ -10,7 +10,7 @@ use Kipchak\Driver\Config\Driver as Config;
  * @var $container ContainerInterface
  */
 
-$container->set('driver.logger', function(ContainerInterface $c): Logger {
+$container->set('drivers.logger', function(ContainerInterface $c): Logger {
 
     if (!empty(Config::get('kipchak.api'))) {
         $apiConfig = Config::get('kipchak.api');

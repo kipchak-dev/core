@@ -20,6 +20,6 @@ class Base
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->logger = $this->container->get('logger');
+        $this->logger = $this->container->get('drivers.logger');
     }
 }
