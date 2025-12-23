@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "80f7485d4ad39ee54006a6191e6fd01b",
+    "content-hash": "1746b8508ebbdacf345e7736ca6a4194",
     "packages": [
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -2020,6 +2020,39 @@
             "time": "2025-12-14T15:58:12+00:00"
         },
         {
+            "name": "kipchak/driver-config",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://1x.ax/mamluk/kipchak/drivers/config",
+                "reference": "6429c6ad4cef50138aa895c0d7bc38af0c6d9f03"
+            },
+            "require": {
+                "mamluk/kipchak": "2.x-dev"
+            },
+            "default-branch": true,
+            "type": "middleware",
+            "autoload": {
+                "psr-4": {
+                    "Mamluk\\Kipchak\\Driver\\Config\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Config Management Kipchak driver (dependency) for the Kipchak API Development Kit (ADK)",
+            "homepage": "https://mamluk.net",
+            "keywords": [
+                "Mamluk",
+                "apis",
+                "configuration",
+                "http",
+                "microservices"
+            ],
+            "time": "2025-12-23T06:25:36+00:00"
+        },
+        {
             "name": "laravel/serializable-closure",
             "version": "v2.0.7",
             "source": {
@@ -2109,6 +2142,50 @@
             ],
             "description": "A CouchDB Client and SessionHandler",
             "time": "2025-10-13T12:05:57+00:00"
+        },
+        {
+            "name": "mamluk/kipchak",
+            "version": "2.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://1x.ax/mamluk/kipchak/core.git",
+                "reference": "4f929f940662a5976e129f19ea39cc05be9da852"
+            },
+            "require": {
+                "cuyz/valinor": "^1.17",
+                "doctrine/orm": "^4",
+                "firebase/php-jwt": "^6.9",
+                "guzzlehttp/guzzle": "^7.10",
+                "illuminate/http": "^12.40",
+                "mamluk/couchdb": "0.7",
+                "monolog/monolog": "^3.9",
+                "php": ">=8.4",
+                "php-di/php-di": "^7.1",
+                "slim/psr7": "^1.8",
+                "slim/slim": "^4.15",
+                "zircote/swagger-php": "^5.7"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mamluk\\Kipchak\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "An API Development Kit (ADK) to consistently build and manage APIs",
+            "homepage": "https://mamluk.net",
+            "keywords": [
+                "apis",
+                "microservices"
+            ],
+            "abandoned": "kipchak/core",
+            "time": "2025-12-23T06:27:30+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -7344,7 +7421,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "kipchak/driver-config": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

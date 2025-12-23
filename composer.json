@@ -22,8 +22,8 @@
     "php-di/php-di": "^7.1",
     "slim/psr7": "^1.8",
     "slim/slim": "^4.15",
-    "mamluk/couchdb": "0.7",
-    "cuyz/valinor": "^1.17"
+    "cuyz/valinor": "^1.17",
+    "kipchak/driver-config": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.6"
