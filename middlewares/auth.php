@@ -2,6 +2,11 @@
 
 use Mamluk\Kipchak\Components\Middlewares\AuthJwks;
 use Mamluk\Kipchak\Components\Middlewares\AuthKey;
+use Slim\App;
+
+/**
+ * @var App $app
+ */
 
 $container = $app->getContainer();
 if (isset($container->get('config')['kipchak.auth'])) {
