@@ -1,6 +1,6 @@
 <?php
 
-namespace Mamluk\Kipchak\Components\Drivers;
+namespace Mamluk\Kipchak\Interfaces;
 
 interface Driver
 {
