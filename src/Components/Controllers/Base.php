@@ -5,7 +5,7 @@ namespace Mamluk\Kipchak\Components\Controllers;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 
-class Slim
+class Base
 {
     /**
      * @var ContainerInterface
