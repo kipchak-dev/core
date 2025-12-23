@@ -28,7 +28,7 @@ class AuthJwks
     {
         $this->container = $container;
         $this->cache = Driver::get();
-        $this->log = $container->get('driver.logger');
+        $this->log = $container->get('drivers.logger');
         $this->scopes = $scopes;
 
     }
