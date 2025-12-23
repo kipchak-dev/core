@@ -2025,7 +2025,7 @@
             "source": {
                 "type": "git",
                 "url": "https://1x.ax/mamluk/kipchak/drivers/config",
-                "reference": "40e6d201f3241beb58dd9e08cab0313901e5698a"
+                "reference": "70fe56b22d2c84d1ee5fdb72f593a9ac5aaa6502"
             },
             "require": {
                 "kipchak/core": "2.x-dev"
@@ -2034,7 +2034,7 @@
             "type": "middleware",
             "autoload": {
                 "psr-4": {
-                    "Mamluk\\Kipchak\\Driver\\Config\\": "src/"
+                    "Kipchak\\Driver\\Config\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2050,7 +2050,7 @@
                 "http",
                 "microservices"
             ],
-            "time": "2025-12-23T07:10:57+00:00"
+            "time": "2025-12-23T10:13:56+00:00"
         },
         {
             "name": "kipchak/driver-filecache",
@@ -2058,7 +2058,7 @@
             "source": {
                 "type": "git",
                 "url": "https://1x.ax/mamluk/kipchak/drivers/filecache",
-                "reference": "186f908a2fdfc368c6117a7dba46fd956d8e7166"
+                "reference": "c80c19cd7d38631a18f7b6b4fd5b0abf09b01523"
             },
             "require": {
                 "kipchak/core": "2.x-dev",
@@ -2068,7 +2068,7 @@
             "type": "dependency",
             "autoload": {
                 "psr-4": {
-                    "Mamluk\\Kipchak\\Driver\\Filecache\\": "src/"
+                    "Kipchak\\Driver\\Filecache\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2084,7 +2084,7 @@
                 "http",
                 "microservices"
             ],
-            "time": "2025-12-23T09:24:48+00:00"
+            "time": "2025-12-23T10:13:00+00:00"
         },
         {
             "name": "laravel/serializable-closure",

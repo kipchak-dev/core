@@ -2,7 +2,7 @@
 
 use Kipchak\Core\Components\Middlewares\AuthJwks;
 use Kipchak\Core\Components\Middlewares\AuthKey;
-use Mamluk\Kipchak\Driver\Config;
+use Kipchak\Driver\Config;
 use Slim\App;
 
 /**
