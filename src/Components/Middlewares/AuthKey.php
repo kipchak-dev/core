@@ -8,6 +8,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Psr7\Response;
+use Kipchak\Driver\Config\Driver as Config;
 
 class AuthKey
 {
@@ -20,7 +21,7 @@ class AuthKey
     }
 
     /**
-     * JWKS Authentication middleware invokable class
+     * Key Authentication middleware invokable class
      *
      * @param ServerRequestInterface $request PSR-7 request
      * @param RequestHandlerInterface $handler PSR-15 request handler
@@ -29,7 +30,7 @@ class AuthKey
      */
     public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): Response
     {
-        $authConfig = $this->container->get('config')['kipchak.auth'];
+        $authConfig = Config::get('kipchak.auth');
 
 
         $response = new Response();
