@@ -13,6 +13,7 @@ use Symfony\Contracts\Cache\ItemInterface;
 use Monolog\Logger;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Exception;
+use Kipchak\Driver\Config\Driver as Config;
 
 class AuthJwks
 {
@@ -43,7 +44,7 @@ class AuthJwks
      */
     public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): Response
     {
-        $authConfig = $this->container->get('config')['kipchak.auth'];
+        $authConfig = Config::get('kipchak.auth');
         $response = new Response();
 
         if (
