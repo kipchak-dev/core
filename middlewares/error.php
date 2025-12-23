@@ -1,6 +1,6 @@
 <?php
 
-use Mamluk\Kipchak\Components\Exceptions\Handlers\DefaultHandler;
+use Kipchak\Core\Components\Exceptions\Handlers\DefaultHandler;
 
 /**
  * @var \Psr\Container\ContainerInterface $container

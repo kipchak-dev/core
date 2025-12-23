@@ -1,6 +1,6 @@
 <?php
 
-namespace Mamluk\Kipchak\Interfaces;
+namespace Kipchak\Core\Interfaces;
 
 use Psr\Container\ContainerInterface;
 

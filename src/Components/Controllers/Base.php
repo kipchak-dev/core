@@ -1,6 +1,6 @@
 <?php
 
-namespace Mamluk\Kipchak\Components\Controllers;
+namespace Kipchak\Core\Components\Controllers;
 
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;

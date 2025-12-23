@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mamluk\Kipchak\Tests;
+namespace Kipchak\Core\Tests;
 
 use PHPUnit\Framework\TestCase as PHPUnit_TestCase;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -11,7 +11,7 @@ use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Headers;
 use Slim\Psr7\Request as SlimRequest;
 use Slim\Psr7\Uri;
-use Mamluk\Kipchak\Api;
+use Kipchak\Core\Api;
 
 class TestCase extends PHPUnit_TestCase
 {

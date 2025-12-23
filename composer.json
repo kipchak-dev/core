@@ -30,12 +30,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Mamluk\\Kipchak\\": "src/"
+      "Kipchak\\Core\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Mamluk\\Kipchak\\Tests\\": "tests/"
+      "Kipchak\\Core\\Tests\\": "tests/"
     }
   },
   "minimum-stability": "dev",

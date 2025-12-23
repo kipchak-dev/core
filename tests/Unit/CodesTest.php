@@ -1,9 +1,9 @@
 <?php
 
-namespace Mamluk\Kipchak\Tests\Unit;
+namespace Kipchak\Core\Tests\Unit;
 
-use Mamluk\Kipchak\Components\Http\Codes;
-use Mamluk\Kipchak\Tests\TestCase;
+use Kipchak\Core\Components\Http\Codes;
+use Kipchak\Core\Tests\TestCase;
 
 class CodesTest extends TestCase
 {

@@ -1,7 +1,8 @@
 <?php
 
-use Mamluk\Kipchak\Components\Middlewares\AuthJwks;
-use Mamluk\Kipchak\Components\Middlewares\AuthKey;
+use Kipchak\Core\Components\Middlewares\AuthJwks;
+use Kipchak\Core\Components\Middlewares\AuthKey;
+use Mamluk\Kipchak\Driver\Config;
 use Slim\App;
 
 /**
@@ -9,8 +10,8 @@ use Slim\App;
  */
 
 $container = $app->getContainer();
-if (isset($container->get('config')['kipchak.auth'])) {
-    $auth = $container->get('config')['kipchak.auth'];
+if (!empty(Config::get('kipchak.auth'))) {
+    $auth = Config::get('kipchak.auth');
     if ($auth['jwks']['enabled']) {
         // Enable JWKS globally
         $app->add(new AuthJwks($container));

@@ -1,6 +1,6 @@
 <?php
 
-namespace Mamluk\Kipchak\Components\Http;
+namespace Kipchak\Core\Components\Http;
 use Exception;
 
 /**

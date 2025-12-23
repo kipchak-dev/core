@@ -1,9 +1,9 @@
 <?php
 
 
-namespace Mamluk\Kipchak\Components\Middlewares;
+namespace Kipchak\Core\Components\Middlewares;
 
-use Mamluk\Kipchak\Components\Http;
+use Kipchak\Core\Components\Http;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;

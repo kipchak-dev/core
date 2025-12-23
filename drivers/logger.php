@@ -4,7 +4,7 @@ Use Monolog\Logger;
 use Monolog\Level;
 Use Monolog\Handler\StreamHandler;
 use Psr\Container\ContainerInterface;
-use Mamluk\Kipchak\Driver\Config\Driver as Config;
+use Kipchak\Core\Driver\Config\Driver as Config;
 
 /**
  * @var $container ContainerInterface

@@ -1,13 +1,13 @@
 <?php
 
-namespace Mamluk\Kipchak\Components\Middlewares;
+namespace Kipchak\Core\Components\Middlewares;
 
-use Mamluk\Kipchak\Components\Http;
+use Kipchak\Core\Components\Http;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Psr7\Response;
-use Mamluk\Kipchak\Components\Auth\JWKS;
+use Kipchak\Core\Components\Auth\JWKS;
 use Symfony\Contracts\Cache\ItemInterface;
 use Monolog\Logger;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;

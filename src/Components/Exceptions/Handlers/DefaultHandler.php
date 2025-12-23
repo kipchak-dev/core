@@ -1,6 +1,6 @@
 <?php
 
-namespace Mamluk\Kipchak\Components\Exceptions\Handlers;
+namespace Kipchak\Core\Components\Exceptions\Handlers;
 
 use Psr\Http\Message\ResponseInterface;
 use Slim\Exception\HttpBadRequestException;
