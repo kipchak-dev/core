@@ -22,7 +22,7 @@
     "php-di/php-di": "^7.1",
     "slim/psr7": "^1.8",
     "slim/slim": "^4.15",
-    "symfony/cache": "^6.4",
+    g
     "mamluk/couchdb": "0.7",
     "cuyz/valinor": "^1.17"
   },
