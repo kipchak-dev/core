@@ -1,5 +1,5 @@
 {
-  "name": "mamluk/kipchak",
+  "name": "kipchak/core",
   "type": "library",
   "description": "An API Development Kit (ADK) to consistently build and manage APIs",
   "keywords": [
