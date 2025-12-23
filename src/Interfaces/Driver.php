@@ -6,9 +6,9 @@ use Psr\Container\ContainerInterface;
 
 interface Driver
 {
-    public function __construct(ContainerInterface $container);
-    public function set();
-    public function get();
+    public function initialise(ContainerInterface $container);
+    public static function set();
+    public static function get();
 
 
 }
