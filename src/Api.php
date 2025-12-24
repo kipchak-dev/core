@@ -18,10 +18,9 @@ class Api
         $app = AppFactory::create();
         $app->addRoutingMiddleware();
         $container = $app->getContainer();
-
-        self::loadDrivers($app, $container);
-        self::loadMiddlewares($app, $container);
-        self::loadRoutes($app, $container);
+        self::loadDrivers($app);
+        self::loadMiddlewares($app);
+        self::loadRoutes($app);
 
         return $app;
     }
@@ -63,17 +62,6 @@ class Api
     public static function loadMiddlewares(App $app): void
     {
         $container = $app->getContainer();
-        /** Load all the middleware files in the /routes folder of this project **/
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(realpath(__DIR__ . '/../middlewares')));
-        $middlewares = array_keys(array_filter(iterator_to_array($iterator), function ($file) {
-            return $file->isFile();
-        }));
-
-        foreach ($middlewares as $middleware) {
-            if (strpos($middleware, '.php') !== false) {
-                require_once(realpath($middleware));
-            }
-        }
 
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(realpath(__DIR__ . '/../../../../middlewares')));
         $middlewares = array_keys(array_filter(iterator_to_array($iterator), function ($file) {
