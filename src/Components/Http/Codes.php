@@ -21,7 +21,7 @@ class Codes
             return $codes[$code];
         }
 
-        throw new Exception('Incorrect Http Error code specified.');
+        return $codes[$code];
     }
 
     /**
@@ -30,8 +30,12 @@ class Codes
     public static function getCodes()
     {
         return [
+            // 1xx Informational
             100 => 'CONTINUE',
             101 => 'SWITCHING PROTOCOLS',
+            102 => 'PROCESSING',
+            103 => 'EARLY HINTS',
+            // 2xx Success
             200 => 'OK',
             201 => 'CREATED',
             202 => 'ACCEPTED',
@@ -39,14 +43,20 @@ class Codes
             204 => 'NO_CONTENT',
             205 => 'RESET_CONTENT',
             206 => 'PARTIAL_CONTENT',
+            207 => 'MULTI-STATUS',
+            208 => 'ALREADY REPORTED',
+            226 => 'IM USED',
+            // 3xx Redirection
             300 => 'MULTIPLE_CHOICES',
             301 => 'MOVED_PERMANENTLY',
-            302 => 'MOVED TEMPORARILY',
+            302 => 'FOUND',
             303 => 'SEE OTHER',
             304 => 'NOT MODIFIED',
             305 => 'USE PROXY',
             306 => 'UNUSED',
             307 => 'TEMPORARY REDIRECT',
+            308 => 'PERMANENT REDIRECT',
+            // 4xx Client Errors
             400 => 'BAD REQUEST',
             401 => 'UNAUTHORIZED',
             402 => 'PAYMENT REQUIRED',
@@ -60,17 +70,35 @@ class Codes
             410 => 'GONE',
             411 => 'LENGTH REQUIRED',
             412 => 'PRECONDITION FAILED',
-            413 => 'REQUEST ENTITY TOO LARGE',
-            414 => 'REQUEST URI TOO LONG',
+            413 => 'PAYLOAD TOO LARGE',
+            414 => 'URI TOO LONG',
             415 => 'UNSUPPORTED MEDIA TYPE',
-            416 => 'REQUEST RANGE NOT SATISFIABLE',
+            416 => 'RANGE NOT SATISFIABLE',
             417 => 'EXPECTATION FAILED',
+            418 => 'I\'M A TEAPOT',
+            421 => 'MISDIRECTED REQUEST',
+            422 => 'UNPROCESSABLE ENTITY',
+            423 => 'LOCKED',
+            424 => 'FAILED DEPENDENCY',
+            425 => 'TOO EARLY',
+            426 => 'UPGRADE REQUIRED',
+            428 => 'PRECONDITION REQUIRED',
+            429 => 'TOO MANY REQUESTS',
+            431 => 'REQUEST HEADER FIELDS TOO LARGE',
+            451 => 'UNAVAILABLE FOR LEGAL REASONS',
+            // 5xx Server Errors
             500 => 'INTERNAL SERVER ERROR',
             501 => 'NOT IMPLEMENTED',
             502 => 'BAD GATEWAY',
             503 => 'SERVICE UNAVAILABLE',
             504 => 'GATEWAY TIMEOUT',
-            505 => 'VERSION NOT SUPPORTED'
+            505 => 'HTTP VERSION NOT SUPPORTED',
+            506 => 'VARIANT ALSO NEGOTIATES',
+            507 => 'INSUFFICIENT STORAGE',
+            508 => 'LOOP DETECTED',
+            510 => 'NOT EXTENDED',
+            511 => 'NETWORK AUTHENTICATION REQUIRED',
+            599 => 'UNKNOWN ERROR CODE'
         ];
     }
 
