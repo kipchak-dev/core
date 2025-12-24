@@ -1,4 +1,5 @@
 <?php
+
 namespace Kipchak\Core;
 
 use Slim\Factory\AppFactory;
@@ -47,16 +48,16 @@ class Api
         /** Load all the dependency files in the /drivers folder of the framework project
          * This section can go away because we won't intend to have ANY pre built drivers in the kit*
          */
-        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(realpath(__DIR__ . '/../drivers')));
-        $dependencies = array_keys(array_filter(iterator_to_array($iterator), function($file) {
-            return $file->isFile();
-        }));
-
-        foreach ($dependencies as $dependency) {
-            if (strpos($dependency, '.php') !== false) {
-                require_once(realpath($dependency));
-            }
-        }
+//        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(realpath(__DIR__ . '/../drivers')));
+//        $dependencies = array_keys(array_filter(iterator_to_array($iterator), function ($file) {
+//            return $file->isFile();
+//        }));
+//
+//        foreach ($dependencies as $dependency) {
+//            if (strpos($dependency, '.php') !== false) {
+//                require_once(realpath($dependency));
+//            }
+//        }
 
         /** Load all driver.php files from vendor/kipchak/driver-* subdirectories **/
         $vendorPath = realpath(__DIR__ . '/../../../../vendor/kipchak');
@@ -74,7 +75,7 @@ class Api
         /** Finally load any project specific drivers */
         $projectDriversPath = realpath(__DIR__ . '/../../../../drivers');
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($projectDriversPath));
-        $drivers = array_keys(array_filter(iterator_to_array($iterator), function($file) {
+        $drivers = array_keys(array_filter(iterator_to_array($iterator), function ($file) {
             return $file->isFile();
         }));
 
@@ -90,7 +91,7 @@ class Api
         $container = $app->getContainer();
         /** Load all the middleware files in the /routes folder of this project **/
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(realpath(__DIR__ . '/../middlewares')));
-        $middlewares = array_keys(array_filter(iterator_to_array($iterator), function($file) {
+        $middlewares = array_keys(array_filter(iterator_to_array($iterator), function ($file) {
             return $file->isFile();
         }));
 
@@ -101,7 +102,7 @@ class Api
         }
 
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(realpath(__DIR__ . '/../../../../middlewares')));
-        $middlewares = array_keys(array_filter(iterator_to_array($iterator), function($file) {
+        $middlewares = array_keys(array_filter(iterator_to_array($iterator), function ($file) {
             return $file->isFile();
         }));
 
@@ -118,7 +119,7 @@ class Api
         $container = $app->getContainer();
         /** Load all the routes files in the /routes folder of this project **/
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(realpath(__DIR__ . '/../../../../routes')));
-        $routes = array_keys(array_filter(iterator_to_array($iterator), function($file) {
+        $routes = array_keys(array_filter(iterator_to_array($iterator), function ($file) {
             return $file->isFile();
         }));
 

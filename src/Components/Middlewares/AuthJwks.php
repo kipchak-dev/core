@@ -10,16 +10,17 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Psr7\Response;
 use Kipchak\Core\Components\Auth\JWKS;
 use Symfony\Contracts\Cache\ItemInterface;
-use Monolog\Logger;
+use Monolog\Logger as Log;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Exception;
 use Kipchak\Driver\Config\Driver as Config;
+use Kipchak\Driver\Logger\Driver as Logger;
 
 class AuthJwks
 {
     public ContainerInterface $container;
 
-    private Logger $log;
+    private Log $log;
 
     private FilesystemAdapter $cache;
 
@@ -29,7 +30,7 @@ class AuthJwks
     {
         $this->container = $container;
         $this->cache = Driver::get();
-        $this->log = $container->get('drivers.logger');
+        $this->log = Logger::get();
         $this->scopes = $scopes;
 
     }

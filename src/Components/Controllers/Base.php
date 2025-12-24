@@ -2,7 +2,8 @@
 
 namespace Kipchak\Core\Components\Controllers;
 
-use Monolog\Logger;
+use Kipchak\Driver\Logger\Driver as Logger;
+use Monolog\Logger as Log;
 use Psr\Container\ContainerInterface;
 
 class Base
@@ -13,13 +14,13 @@ class Base
     protected $container;
 
     /**
-     * @var Logger
+     * @var Log
      */
     protected $logger;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-        $this->logger = $this->container->get('drivers.logger');
+        $this->logger = Logger::get();
     }
 }
