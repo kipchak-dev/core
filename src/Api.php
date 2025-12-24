@@ -44,8 +44,9 @@ class Api
         $container = $app->getContainer();
         // Load static functions
         require_once(realpath(__DIR__ . '/Functions.php'));
-        require_once(realpath(__DIR__ . '/../drivers/logger.php'));
-        /** Load all the dependency files in the /drivers folder of this project **/
+        /** Load all the dependency files in the /drivers folder of the framework project
+         * This section can go away because we won't intend to have ANY pre built drivers in the kit*
+         */
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(realpath(__DIR__ . '/../drivers')));
         $dependencies = array_keys(array_filter(iterator_to_array($iterator), function($file) {
             return $file->isFile();
@@ -69,6 +70,19 @@ class Api
             }
         }
         /***/
+
+        /** Finally load any project specific drivers */
+        $projectDriversPath = realpath(__DIR__ . '/../../../../drivers');
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($projectDriversPath));
+        $drivers = array_keys(array_filter(iterator_to_array($iterator), function($file) {
+            return $file->isFile();
+        }));
+
+        foreach ($drivers as $driver) {
+            if (strpos($driver, '.php') !== false) {
+                require_once(realpath($driver));
+            }
+        }
     }
 
     public static function loadMiddlewares(App $app): void
