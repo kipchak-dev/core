@@ -45,34 +45,8 @@ class Api
         $container = $app->getContainer();
         // Load static functions
         require_once(realpath(__DIR__ . '/Functions.php'));
-        /** Load all the dependency files in the /drivers folder of the framework project
-         * This section can go away because we won't intend to have ANY pre built drivers in the kit*
-         */
-//        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(realpath(__DIR__ . '/../drivers')));
-//        $dependencies = array_keys(array_filter(iterator_to_array($iterator), function ($file) {
-//            return $file->isFile();
-//        }));
-//
-//        foreach ($dependencies as $dependency) {
-//            if (strpos($dependency, '.php') !== false) {
-//                require_once(realpath($dependency));
-//            }
-//        }
 
-        /** Load all driver.php files from vendor/kipchak/driver-* subdirectories **/
-        $vendorPath = realpath(__DIR__ . '/../../../../vendor/kipchak');
-        if ($vendorPath && is_dir($vendorPath)) {
-            $driverDirs = glob($vendorPath . '/driver-*', GLOB_ONLYDIR);
-            foreach ($driverDirs as $driverDir) {
-                $driverFile = $driverDir . '/driver.php';
-                if (file_exists($driverFile)) {
-                    require_once($driverFile);
-                }
-            }
-        }
-        /***/
-
-        /** Finally load any project specific drivers */
+        /** Load drivers inititalised in the project */
         $projectDriversPath = realpath(__DIR__ . '/../../../../drivers');
         $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($projectDriversPath));
         $drivers = array_keys(array_filter(iterator_to_array($iterator), function ($file) {
