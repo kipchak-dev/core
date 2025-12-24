@@ -18,23 +18,54 @@
 
 ## Overview
 
-Kipchak is an API Development Kit (ADK) built on [Slim Framework](https://www.slimframework.com), designed for rapid API development. Written in PHP, it combines years of production experience handling thousands of concurrent requests.
+Kipchak is an API Development Kit (ADK) built on [Slim Framework](https://www.slimframework.com), designed for rapid API development. 
+Written in PHP, it combines years of production experience handling thousands of concurrent requests.
+
+Kipchak is built to be extremely lightweight and easy to use. Its core components just include:
+
+* An HTTP request and Response handler
+* A base controller
+* ّInterfaces to write drivers (dependencies you inject into the service container) and middleware
+* Zircotte Swagger PHP for generating OpenAPI documentation
+* Cuyz Valinor for object mapping
 
 ## Quick Start
 
 To see Kipchak in action, visit our [starter repository](https://1x.ax/mamluk/kipchak/starter).
 
-## Features in the Community Edition
+## Features
 
-| Category          | Components                                                                                                 |
-|-------------------|------------------------------------------------------------------------------------------------------------|
-| Core Features     | • Easy config management<br>• Consistent bootstrapping<br>• Dependency injection<br>• Middleware injection |
-| Caching           | • Symfony Cache<br>• Memcached support<br>• File System Caching                                            |
-| Database          | • Doctrine DBAL and ORM<br>• CouchDB Client                                                                |
-| Authentication    | • OAuth 2 with JWKS<br>• Key-based authentication                                                          |
-| Development Tools | • Object Mapping (Valinor)<br>• Pre-configured testing                                                     |
-| Infrastructure    | • Base Dockerfile<br>• NGINX Unit support                                                                  |
-| Documentation     | • OpenAPI using Zircotte Swagger PHP                                                                       |
+### Drivers
+
+Drivers are the components that you can inject into the service container to extend Kipchak's functionality. They can be written directly in your 
+Kipchak project or can be installed as separate packages. The following packages are available:
+
+* Memached
+* Filecache (for caching to disk)
+* CouchDB (based on Mamluk's CouchDB Client)
+* Doctrine ORM (from Symfony)
+* Logger (Monolog)
+* HTTP Client (based on Laravel)
+* Config (for managing configuration files)
+* Rabbit MQ (based on Tavshan by Mamluk)
+* Object Storage
+
+For a complete list, please visit https://1x.ax/mamluk/kipchak/drivers.
+
+### Middlewares
+
+PSR 15 middlewares can be used to extend Kipchak's functionality. To better understand middlewares, please visit https://www.php-fig.org/psr/psr-15/.
+
+The following middlewares are available:
+
+* JWKS based Authentication
+* Key-based Authentication
+* WAF that supports:
+  * Blacklisting
+  * Whitelisting
+  * Rate limiting
+
+For a complete list, please visit https://1x.ax/mamluk/kipchak/middlewares. |
 
 ## Enterprise Features (Paid)
 
@@ -43,15 +74,18 @@ To see Kipchak in action, visit our [starter repository](https://1x.ax/mamluk/ki
 * **Binary only or security verified** containers
 * **RBAC Management**
 * **Personal Access Token Management**
-* **Rate limting** by IP address / user / API key
 * **OAuth 2 Client** with simplified token management for upstream APIs
 
 To learn more about Kipchak Enterprise Edition, please reach out via https://mamluk.net/contact.
 
-## Additional Open Source Components you can use with Kipchak
-| Category          | Components                                                            |
-|-------------------|-----------------------------------------------------------------------|
-| Message Queues    | Tavashan by Mamluk (https://1x.ax/mamluk/tavshan - a Rabbit MQ Client |
+## Key Differences between versions 1.x and versions 2.x
+* Package name has changed from mamlu/kipchak to kipchak/core
+* Namespace has changed from Mamluk\Kipchak to Kipchak
+* The project has been restructured to be more modular and has thus introduced:
+  * Drivers
+  * Middlewares
+* Interfaces have been added to make it easier to write drivers and middlewares
+* The starter repository has been updated to use the new structure
 
 ## Key Differences between versions 0.x and versions 1.x
 
@@ -71,14 +105,17 @@ To learn more about Kipchak Enterprise Edition, please reach out via https://mam
 | Component      | Provider              |
 |----------------|-----------------------|
 | Framework      | Slim Framework        |
-| Cache/ORM      | Symfony               |
+| ORM            | Symfony Doctrine      |
 | HTTP Client    | Laravel               |
 | Logging        | Monolog               |
 | Object Mapping | Team CuyZ (Valinor)   |
 | Open API Docs  | Zircotte              |
 | Couch DB       | Mamluk CouchDB Client |
+| Rabbit MQ      | Tavshan by Mamluk     |
+| Cache          | Memcached / Symfony   |
 
-For complete dependencies, see our [composer.json](https://1x.ax/mamluk/kipchak/core/~files/master/composer.json).
+
+For complete dependencies, see our [composer.json](https://1x.ax/mamluk/kipchak/core/~files/master/composer.json) and the starter project's [composer.json](https://1x.ax/mamluk/kipchak/starter/~files/master/composer.json).
 
 ## About
 
