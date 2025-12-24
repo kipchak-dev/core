@@ -98,7 +98,7 @@ To learn more about Kipchak Enterprise Edition, please reach out via https://mam
 - **Framework**: Built on [Slim Framework](https://www.slimframework.com)
 - **Memory Footprint**: Lightweight compared to Symfony/Laravel
 - **Integration**: Compatible with Symfony/Laravel libraries
-- **PHP 8.3+**
+- **PHP 8.4+**
 
 ## Credits
 
