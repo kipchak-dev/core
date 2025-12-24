@@ -64,7 +64,7 @@ class Codes
             414 => 'REQUEST URI TOO LONG',
             415 => 'UNSUPPORTED MEDIA TYPE',
             416 => 'REQUEST RANGE NOT SATISFIABLE',
-            417 => 'EXPECTION FAILED',
+            417 => 'EXPECTATION FAILED',
             500 => 'INTERNAL SERVER ERROR',
             501 => 'NOT IMPLEMENTED',
             502 => 'BAD GATEWAY',
