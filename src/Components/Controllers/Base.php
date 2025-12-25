@@ -2,7 +2,7 @@
 
 namespace Kipchak\Core\Components\Controllers;
 
-use Kipchak\Driver\Logger\Driver as Logger;
+use Kipchak\Driver\Logger\Logger;
 use Monolog\Logger as Log;
 use Psr\Container\ContainerInterface;
 
