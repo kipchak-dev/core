@@ -2,8 +2,7 @@
 
 namespace Kipchak\Core\Interfaces;
 
-use Psr\Container\ContainerInterface;
-use Slim\App;
+use Kipchak\Core\Components\App;
 
 interface Middleware
 {
