@@ -44,4 +44,26 @@ class Response
             ->withHeader('Location', $url)
             ->withAddedHeader('X-Powered-By', 'Kipchak by Mamluk');
     }
+
+    public static function raw(ResponseInterface $response, mixed $data, int $code, bool $cache = false, int $cacheTTL = 3600, array $cacheControlHeaders = []): ResponseInterface
+    {
+        $response->getBody()->write($data);
+
+        if (empty($cacheControlHeaders)) {
+            $headersString = '';
+        } else {
+            $headersString = implode(',', $cacheControlHeaders) . ',';
+        }
+        if ($cache) {
+            return $response->withHeader('Content-Type', 'application/json')
+                ->withAddedHeader('Cache-Control', $headersString . 'max-age=' . $cacheTTL)
+                ->withAddedHeader('ETag', md5($data))
+                ->withAddedHeader('X-Powered-By', 'Kipchak by Mamluk')
+                ->withStatus($code);
+        }
+
+        return $response->withHeader('Content-Type', 'text/*')
+            ->withAddedHeader('X-Powered-By', 'Kipchak by Mamluk')
+            ->withStatus($code);
+    }
 }
