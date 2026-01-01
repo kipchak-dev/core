@@ -2,8 +2,8 @@
 
 namespace Kipchak\Core;
 
-use Slim\Factory\AppFactory;
-use Slim\App;
+use Kipchak\Core\Components\Factory\AppFactory;
+use Kipchak\Core\Components\App;
 use DI\Container;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
@@ -12,12 +12,10 @@ class Api
 {
     public static function boot(): App
     {
-        // Create DI Container and App
         $container = new Container();
         AppFactory::setContainer($container);
         $app = AppFactory::create();
         $app->addRoutingMiddleware();
-        $container = $app->getContainer();
         self::loadDrivers($app);
         self::loadMiddlewares($app);
         self::loadRoutes($app);
@@ -32,9 +30,8 @@ class Api
         AppFactory::setContainer($container);
         $app = AppFactory::create();
         $app->addRoutingMiddleware();
-        $container = $app->getContainer();
 
-        self::loadDrivers($app, $container);
+        self::loadDrivers($app);
 
         return $app;
     }
@@ -53,7 +50,7 @@ class Api
         }));
 
         foreach ($drivers as $driver) {
-            if (strpos($driver, '.php') !== false) {
+            if (str_contains($driver, '.php')) {
                 require_once(realpath($driver));
             }
         }
@@ -69,7 +66,7 @@ class Api
         }));
 
         foreach ($middlewares as $middleware) {
-            if (strpos($middleware, '.php') !== false) {
+            if (str_contains($middleware, '.php')) {
                 require_once(realpath($middleware));
             }
         }
@@ -86,7 +83,7 @@ class Api
         }));
 
         foreach ($routes as $route) {
-            if (strpos($route, '.php') !== false) {
+            if (str_contains($route, '.php')) {
                 require_once(realpath($route));
             }
         }
