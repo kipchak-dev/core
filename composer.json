@@ -20,7 +20,7 @@
     "cuyz/valinor": "^1.17"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9.6"
+    "phpunit/phpunit": "^12"
   },
   "autoload": {
     "psr-4": {
