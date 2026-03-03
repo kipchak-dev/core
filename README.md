@@ -1,112 +1,387 @@
 [![Latest Stable Version](http://poser.pugx.org/kipchak/core/v)](https://packagist.org/packages/kipchak/core) [![Total Downloads](http://poser.pugx.org/kipchak/core/downloads)](https://packagist.org/packages/kipchak/core) [![Latest Unstable Version](http://poser.pugx.org/kipchak/core/v/unstable)](https://packagist.org/packages/kipchak/core) [![License](http://poser.pugx.org/kipchak/core/license)](https://packagist.org/packages/kipchak/core) [![PHP Version Require](http://poser.pugx.org/kipchak/core/require/php)](https://packagist.org/packages/kipchak/core)
 
-<img src="https://1x.ax/mamluk/kipchak/core/~raw/master/.mamluk/logo.svg" alt="Kipchak by Mamluk" title="Kipchak by Mamluk - an API Toolkit" />
+<img src="https://1x.ax/mamluk/kipchak/core/~raw/master/.mamluk/logo.svg" alt="Kipchak by Mamluk" title="Kipchak by Mamluk - an API Development Kit" />
 
 # Kipchak by Mamluk
 
-## Overview
+Kipchak is a PHP 8.4+ API Development Kit (ADK) built on [Slim Framework v4](https://www.slimframework.com), designed for rapid API development and optimised for [FrankenPHP](https://frankenphp.dev/) in worker mode.
 
-Kipchak is an API Development Kit (ADK) built on [Slim Framework](https://www.slimframework.com), designed for rapid API development. 
-Written in PHP, it combines years of production experience handling thousands of concurrent requests.
+The core package provides the bootstrap layer, base classes, interfaces, and HTTP helpers. Drivers and middlewares are installed as separate packages alongside it.
 
-Kipchak is built to be extremely lightweight and easy to use. Its core components just include:
+**Full documentation: <https://kipchak.dev>**
 
-* An HTTP request and Response handler
-* A base controller
-* ّInterfaces to write drivers (dependencies you inject into the service container) and middleware
-* Zircotte Swagger PHP for generating OpenAPI documentation
-* Cuyz Valinor for object mapping
+---
 
-## Quick Start
+## Install
 
-To see Kipchak in action, visit our [starter repository](https://1x.ax/mamluk/kipchak/starter).
+```bash
+composer require kipchak/core
+```
 
-## Features
+To get started with a complete working project, use the [starter template](https://kipchak.dev/docs/getting-started):
 
-### Drivers
+```bash
+composer create-project kipchak/starter [api-name] -s dev
+```
 
-Drivers are the components that you can inject into the service container to extend Kipchak's functionality. They can be written directly in your 
-Kipchak project or can be installed as separate packages. The following packages are available:
+---
 
-* Memached
-* Filecache (for caching to disk)
-* CouchDB (based on Mamluk's CouchDB Client)
-* Doctrine ORM (from Symfony)
-* Logger (Monolog)
-* HTTP Client (based on Laravel)
-* Config (for managing configuration files)
-* Rabbit MQ (based on Tavshan by Mamluk)
-* Object Storage
+## What's in the Core
 
-For a complete list, please visit https://1x.ax/mamluk/kipchak/drivers.
+| Class / Interface | Description |
+|---|---|
+| `Kipchak\Core\Api` | Bootstrap entry point |
+| `Kipchak\Core\Components\Controllers\Base` | Base controller with container and logger |
+| `Kipchak\Core\Components\Http\Response` | JSON, redirect, and raw response helpers |
+| `Kipchak\Core\Components\Http\Request` | Query param and attribute helpers |
+| `Kipchak\Core\Interfaces\Driver` | Interface all drivers must implement |
+| `Kipchak\Core\Interfaces\Middleware` | Interface all middlewares must implement |
+| `Kipchak\Core\Functions` | Global helper functions: `env()`, `config()`, `dump()` |
 
-### Middlewares
+---
 
-PSR 15 middlewares can be used to extend Kipchak's functionality. To better understand middlewares, please visit https://www.php-fig.org/psr/psr-15/.
+## Bootstrapping
 
-The following middlewares are available:
+### `Api::boot()`
 
-* JWKS based Authentication
-* Key-based Authentication
-* WAF that supports:
-  * Blacklisting
-  * Whitelisting
-  * Rate limiting
+Bootstraps a full HTTP API. Loads drivers, middlewares, and routes from the project root — then returns a configured `App` instance ready to run.
 
-For a complete list, please visit https://1x.ax/mamluk/kipchak/middlewares. |
+```php
+// html/index.php (FrankenPHP worker mode)
+$app = Kipchak\Core\Api::boot();
+$app->addBodyParsingMiddleware();
 
-## Enterprise Features (Paid)
+frankenphp_handle_request(function () use ($app) {
+    $app->run();
+});
+```
 
-* **Valkey** support for caching
-* **JWT** authentication / authorisation with a public key
-* **Binary only or security verified** containers
-* **RBAC Management**
-* **Personal Access Token Management**
-* **OAuth 2 Client** with simplified token management for upstream APIs
+### `Api::bootCli()`
 
-To learn more about Kipchak Enterprise Edition, please reach out via https://mamluk.net/contact.
+Bootstraps a CLI application. Loads drivers only — no middlewares or routes — and returns the `App` instance.
 
-## Key Differences between versions 1.x and versions 2.x
-* Package name has changed from mamlu/kipchak to kipchak/core
-* Namespace has changed from Mamluk\Kipchak to Kipchak
-* The project has been restructured to be more modular and has thus introduced:
-  * Drivers
-  * Middlewares
-* Interfaces have been added to make it easier to write drivers and middlewares
-* The starter repository has been updated to use the new structure
+```php
+$app = Kipchak\Core\Api::bootCli();
+```
 
-## Key Differences between versions 0.x and versions 1.x
+### Boot sequence
 
-* Session management has not been used even once in a 0.x implementation as it's always best to keep APIs stateless so it has been removed
-* Zircote Swagger PHP has been added for generating OpenAPI documentation from PHP Attributes
-* Doctrine has now been upgraded to the stable version 3.5+. *This may result in breaking changes*, especially for migrations and if you were using / extending some core Doctrine capabilities without specifying return types.
+`Api::boot()` performs these steps in order:
+
+1. Creates a `php-di/php-di` DI container
+2. Creates the Slim `App` instance and adds routing middleware
+3. Loads all `.php` files from `drivers/` (your driver registrations)
+4. Loads all `.php` files from `middlewares/` (your middleware registrations)
+5. Loads all `.php` files from `routes/` (your route definitions)
+
+---
+
+## HTTP Helpers
+
+### `Http\Response`
+
+All response methods set `Content-Type`, `X-Powered-By`, and the HTTP status code.
+
+**JSON response** — wraps data in the standard [response envelope](#response-envelope):
+
+```php
+use Kipchak\Core\Components\Http;
+
+return Http\Response::json($response, ['key' => 'value'], 200);
+
+// With HTTP caching headers:
+return Http\Response::json($response, $data, 200, cache: true, cacheTTL: 3600);
+```
+
+**Redirect:**
+
+```php
+return Http\Response::redirect($response, 'https://example.com', 302);
+```
+
+**Raw text response:**
+
+```php
+return Http\Response::raw($response, 'plain text', 200);
+```
+
+### `Http\Request`
+
+```php
+use Kipchak\Core\Components\Http;
+
+// Read a query parameter (?name=value), returns null if absent
+$value = Http\Request::getQueryParam($request, 'name');
+
+// Read a request attribute (set by middleware)
+$token = Http\Request::getAttribute($request, 'token');
+```
+
+### Response Envelope
+
+`Http\Response::json()` always wraps data in this envelope:
+
+```json
+{
+    "code": 200,
+    "status": "OK",
+    "data": { ... }
+}
+```
+
+---
+
+## Controllers
+
+Controllers extend `Kipchak\Core\Components\Controllers\Base`, which injects:
+
+- `$this->container` — the DI container (`Psr\Container\ContainerInterface`)
+- `$this->logger` — a `Monolog\Logger` instance
+
+```php
+namespace Api\Controllers\v1;
+
+use Kipchak\Core\Components\Controllers;
+use Kipchak\Core\Components\Http;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+class Example extends Controllers\Base
+{
+    public function get(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    {
+        $this->logger->info('Handling request');
+
+        return Http\Response::json($response, ['hello' => 'world'], 200);
+    }
+}
+```
+
+---
+
+## Helper Functions
+
+Defined in `Kipchak\Core\Functions` and available globally once `Api::boot()` is called.
+
+### `env(string $name, string $default): string`
+
+Reads an environment variable, returning `$default` if it is not set.
+
+```php
+use function Kipchak\Core\env;
+
+$host = env('DB_HOST', 'localhost');
+```
+
+### `config(string $file): array`
+
+Loads a PHP config file from the project's `config/` directory by name (without the `.php` extension). Returns an empty array if the file does not exist.
+
+```php
+use function Kipchak\Core\config;
+
+$settings = config('kipchak.api'); // loads config/kipchak.api.php
+```
+
+### `dump(mixed $data): ResponseInterface`
+
+Renders a variable to the HTTP response. Use this instead of `var_dump()` or `print_r()`, which do not work in FrankenPHP worker mode. Can only be called from inside a controller or middleware.
+
+```php
+use function Kipchak\Core\dump;
+
+return dump($someVariable);
+```
+
+---
+
+## Driver Interface
+
+All drivers implement `Kipchak\Core\Interfaces\Driver`:
+
+```php
+interface Driver
+{
+    public static function initialise(ContainerInterface $container, ?string $configFileName = null);
+    public static function set(?string $configFileName = null);
+    public static function get(?string $configKey = null);
+}
+```
+
+- `initialise()` — stores the container reference and calls `set()`
+- `set()` — reads config and registers service(s) into the DI container
+- `get()` — retrieves a registered service from the container by key
+
+Container keys follow the convention `drivers.<category>.<name>.<connection>`, for example `drivers.cache.memcached.default`.
+
+### Minimal driver example
+
+```php
+namespace My\Driver;
+
+use Kipchak\Core\Interfaces;
+use Kipchak\Driver\Config\Config;
+use Psr\Container\ContainerInterface;
+
+class MyDriver implements Interfaces\Driver
+{
+    protected static ContainerInterface $container;
+
+    public static function initialise(ContainerInterface $container, ?string $configFileName = null): void
+    {
+        self::$container = $container;
+        self::set($configFileName);
+    }
+
+    public static function set(?string $configFileName = null): void
+    {
+        $config = Config::get($configFileName ?? 'kipchak.mydriver');
+        self::$container->set('drivers.mydriver.default', fn() => new MyService($config));
+    }
+
+    public static function get(?string $configKey = null): MyService
+    {
+        return self::$container->get('drivers.mydriver.' . ($configKey ?? 'default'));
+    }
+}
+```
+
+Register it in `drivers/drivers.php`:
+
+```php
+MyDriver::initialise($container);
+```
+
+---
+
+## Middleware Interface
+
+All middlewares implement `Kipchak\Core\Interfaces\Middleware`:
+
+```php
+interface Middleware
+{
+    public static function initialise(App $app);
+}
+```
+
+`initialise()` receives the `App` instance and calls `$app->add()` to register the middleware globally, or conditionally based on config.
+
+### Minimal middleware example
+
+```php
+namespace My\Middleware;
+
+use Kipchak\Core\Interfaces;
+use Kipchak\Core\Components\App;
+
+class MyMiddleware implements Interfaces\Middleware
+{
+    public static function initialise(App $app): void
+    {
+        $app->add(new MyMiddlewareHandler());
+    }
+}
+```
+
+Register it in `middlewares/middlewares.php`:
+
+```php
+MyMiddleware::initialise($app);
+```
+
+---
+
+## Available Drivers
+
+The following driver packages are available. Install any of them with `composer require`:
+
+### Community (MIT)
+
+| Package | Description |
+|---|---|
+| `kipchak/driver-config` | Loads PHP config files from `config/`. Always required. |
+| `kipchak/driver-logger` | PSR-3 logger (Monolog) |
+| `kipchak/driver-http` | PSR-18 HTTP client (Laravel HTTP) |
+| `kipchak/driver-filecache` | File-based cache (Symfony Cache) |
+| `kipchak/driver-memcached` | Memcached pools (Symfony Cache) |
+| `kipchak/driver-couchdb` | Apache CouchDB 3.x document store |
+| `kipchak/driver-doctrine` | Doctrine DBAL and ORM for MySQL / MariaDB |
+| `kipchak/driver-rabbitmq` | RabbitMQ publisher and subscriber |
+| `kipchak/driver-s3` | S3-compatible object storage |
+| `kipchak/driver-git` | Git repository operations over HTTPS |
+| `kipchak/driver-openai` | OpenAI chat completions with default model injection |
+| `kipchak/driver-anthropic` | Anthropic Claude messages with default model injection |
+| `kipchak/driver-cloudflare-dns` | Cloudflare DNS zone and record management |
+| `kipchak/driver-cloudns` | ClouDNS zone and record management |
+
+### Enterprise
+
+| Package | Description |
+|---|---|
+| `kipchak/driver-valkey` | Redis / Valkey cache (standalone, sentinel, cluster, replica) |
+| `kipchak/driver-opensearch` | OpenSearch client (multi-connection, multiple auth types) |
+| `kipchak/driver-kafka` | Kafka producer and consumer (`ext-rdkafka`) |
+| `kipchak/driver-oauth2-token` | OAuth 2.0 client credentials token management |
+
+---
+
+## Available Middlewares
+
+| Package | Description |
+|---|---|
+| `kipchak/middleware-error` | Standardised JSON error responses for unhandled exceptions |
+| `kipchak/middleware-auth-key` | API key validation via header or query parameter |
+| `kipchak/middleware-auth-jwks` | Bearer JWT validation against a remote JWKS URI |
+| `kipchak/middleware-auth-mtls` | Mutual TLS client certificate validation |
+| `kipchak/middleware-subashi` | WAF with OWASP rules, rate limiting, IP/header allow/blocklists |
+| `kipchak/middleware-subashi-pro` | Enterprise WAF with RBAC, AuthN/AuthZ, and JWKS |
+| `kipchak/middleware-auth-jwt` | JWT validation with a local public key (Enterprise) |
+
+---
+
+## Enterprise Edition
+
+Enterprise drivers and middlewares are available with a commercial licence. To enquire, contact us at <https://mamluk.net/contact>.
+
+---
 
 ## Technical Stack
 
-- **Framework**: Built on [Slim Framework](https://www.slimframework.com)
-- **Memory Footprint**: Lightweight compared to Symfony/Laravel
-- **Integration**: Compatible with Symfony/Laravel libraries
-- **PHP 8.4+**
+| Component       | Provider                |
+|-----------------|-------------------------|
+| Framework       | Slim Framework          |
+| DI Container    | PHP-DI                  |
+| ORM             | Doctrine                |
+| HTTP Client     | Laravel HTTP            |
+| Logging         | Monolog                 |
+| Object Mapping  | CuyZ Valinor            |
+| OpenAPI Docs    | Zircote Swagger PHP     |
+| CouchDB Client  | Mamluk CouchDB Client   |
+| RabbitMQ Client | Tavshan by Mamluk       |
+| Cache           | Symfony Cache           |
 
-## Credits
+---
 
-| Component      | Provider              |
-|----------------|-----------------------|
-| Framework      | Slim Framework        |
-| ORM            | Symfony Doctrine      |
-| HTTP Client    | Laravel               |
-| Logging        | Monolog               |
-| Object Mapping | Team CuyZ (Valinor)   |
-| Open API Docs  | Zircotte              |
-| Couch DB       | Mamluk CouchDB Client |
-| Rabbit MQ      | Tavshan by Mamluk     |
-| Cache          | Memcached / Symfony   |
+## Migrating from 1.x
 
+- Package name changed from `mamluk/kipchak` to `kipchak/core`
+- Namespace changed from `Mamluk\Kipchak` to `Kipchak`
+- The project is now modular: drivers and middlewares are separate packages
+- Interfaces (`Driver`, `Middleware`) have been added for writing extensions
+- The starter project has been updated to reflect the new structure
 
-For complete dependencies, see our [composer.json](https://1x.ax/mamluk/kipchak/core/~files/master/composer.json) and the starter project's [composer.json](https://1x.ax/mamluk/kipchak/starter/~files/master/composer.json).
+## Migrating from 0.x
+
+- Session management has been removed (APIs should be stateless)
+- Zircote Swagger PHP added for generating OpenAPI documentation from PHP attributes
+- Doctrine upgraded to 3.5+, which may introduce breaking changes if you extended core Doctrine classes without explicit return types
+
+---
 
 ## About
 
 - **Company**: [Mamluk](https://mamluk.net)
-- **Name Origin**: Named after the Turkic Kipchak family which founded the Mamluk Sultanate of Cairo in 1250
-- **Documentation**: Available at [Kipchak Starter](https://1x.ax/mamluk/kipchak/starter)
+- **Name origin**: Named after the Turkic Kipchak family which founded the Mamluk Sultanate of Cairo in 1250
+- **Documentation**: <https://kipchak.dev>
+- **License**: MIT
