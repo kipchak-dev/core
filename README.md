@@ -129,6 +129,21 @@ $token = Http\Request::getAttribute($request, 'token');
 }
 ```
 
+Pass an optional `meta` array (available since 3.0) for pagination, counts, or other endpoint metadata. It sits between `status` and `data`:
+
+```php
+return Http\Response::json($response, $items, 200, meta: ['total' => 128, 'page' => 1]);
+```
+
+```json
+{
+    "code": 200,
+    "status": "OK",
+    "meta": { "total": 128, "page": 1 },
+    "data": [ ... ]
+}
+```
+
 ---
 
 ## Controllers
@@ -362,6 +377,14 @@ Enterprise drivers and middlewares are available with a commercial licence. To e
 | Cache           | Symfony Cache           |
 
 ---
+
+## Migrating from 2.x
+
+- Adds support for PHP 8.5; PHP 8.4 remains supported
+- `cuyz/valinor` upgraded from 1.x to 2.x, and `zircote/swagger-php` from 5.x to 6.x — only affects you if you use these libraries directly (the standard Valinor mapping flow and Swagger PHP attributes are unchanged)
+- `Http\Response::json()` gains an optional `meta` argument (additive, backward compatible)
+- Drivers and middlewares now accept `kipchak/core: ^2 || ^3`, so core 3.x can be adopted incrementally
+- See the [full upgrade guide](https://kipchak.dev/docs/upgrades) for the breaking `driver-http`, `driver-anthropic`, and `driver-openai` 2.0 releases
 
 ## Migrating from 1.x
 
