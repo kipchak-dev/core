@@ -72,6 +72,7 @@ class Response
         }
 
         return $response->withHeader('Content-Type', 'text/*')
+            ->withAddedHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
             ->withAddedHeader('X-Powered-By', 'Kipchak by Mamluk')
             ->withStatus($code);
     }
