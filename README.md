@@ -1,6 +1,6 @@
 [![Latest Stable Version](http://poser.pugx.org/kipchak/core/v)](https://packagist.org/packages/kipchak/core) [![Total Downloads](http://poser.pugx.org/kipchak/core/downloads)](https://packagist.org/packages/kipchak/core) [![Latest Unstable Version](http://poser.pugx.org/kipchak/core/v/unstable)](https://packagist.org/packages/kipchak/core) [![License](http://poser.pugx.org/kipchak/core/license)](https://packagist.org/packages/kipchak/core) [![PHP Version Require](http://poser.pugx.org/kipchak/core/require/php)](https://packagist.org/packages/kipchak/core)
 
-<img src="https://1x.ax/mamluk/kipchak/core/~raw/master/.mamluk/logo.svg" alt="Kipchak by Mamluk" title="Kipchak by Mamluk - an API Development Kit" />
+<img src=".mamluk/logo.png" width="96" alt="Kipchak by Mamluk" title="Kipchak by Mamluk - an API Development Kit" />
 
 # Kipchak by Mamluk
 
