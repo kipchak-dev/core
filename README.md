@@ -56,6 +56,22 @@ frankenphp_handle_request(function () use ($app) {
 });
 ```
 
+### Work after the response
+
+`App::onTerminate()` registers work to run after the response has been sent, such as exporting telemetry, so
+that it does not delay the client. The worker loop calls `$app->terminate()` after each request (the starter
+project does from 3.19); a callback that throws does not stop the others, and its error goes to `error_log()`.
+
+```php
+$app->onTerminate(fn () => $metrics->flush());
+
+for (;;) {
+    $keepRunning = frankenphp_handle_request($handler);
+    $app->terminate();
+    if (!$keepRunning) break;
+}
+```
+
 ### `Api::bootCli()`
 
 Bootstraps a CLI application. Loads drivers only — no middlewares or routes — and returns the `App` instance.
