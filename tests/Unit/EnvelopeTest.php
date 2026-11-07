@@ -107,6 +107,18 @@ final class EnvelopeTest extends TestCase
         $this->assertContains('RESOURCE_NOT_FOUND', $document['components']['schemas']['Error']['properties']['status']['enum']);
     }
 
+    public function testTheEnvelopeSchemasHaveExamples(): void
+    {
+        $generator = (new Generator())->withProcessorPipeline(fn (Pipeline $pipeline) => $pipeline->add(new Envelope(errors: true)));
+        $json = $generator->generate([dirname(__DIR__) . '/Fixtures/OpenApi'])->toJson();
+        $schemas = json_decode($json, true)['components']['schemas'];
+
+        $this->assertSame(2, substr_count($json, '"example": {}'), 'The meta and data examples are empty objects, not empty arrays');
+        $this->assertSame([], $schemas['Success']['properties']['meta']['example']);
+        $this->assertSame([], $schemas['Success']['properties']['data']['example']);
+        $this->assertSame('RESOURCE_NOT_FOUND', $schemas['Error']['properties']['status']['example']);
+    }
+
     public function testWithoutTheProcessorTheDocumentStatesTheBareData(): void
     {
         // Control: the misstatement the processor corrects.

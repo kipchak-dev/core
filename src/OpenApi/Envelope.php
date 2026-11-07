@@ -224,8 +224,8 @@ class Envelope
             'properties' => [
                 new OA\Property(['property' => 'code', 'type' => 'integer', 'description' => 'The HTTP status.', 'example' => 200, '_context' => $context]),
                 new OA\Property(['property' => 'status', 'type' => 'string', 'description' => 'The name of the HTTP status.', 'example' => 'OK', '_context' => $context]),
-                new OA\Property(['property' => 'meta', 'type' => 'object', 'description' => 'Endpoint metadata, such as paging, when the operation states it.', '_context' => $context]),
-                new OA\Property(['property' => 'data', 'description' => 'The result, as each operation states it.', '_context' => $context]),
+                new OA\Property(['property' => 'meta', 'type' => 'object', 'description' => 'Endpoint metadata, such as paging, when the operation states it.', 'example' => new \stdClass(), '_context' => $context]),
+                new OA\Property(['property' => 'data', 'description' => 'The result, as each operation states it.', 'example' => new \stdClass(), '_context' => $context]),
             ],
             '_context' => $context,
         ]);
@@ -243,7 +243,7 @@ class Envelope
             'properties' => [
                 new OA\Property(['property' => 'code', 'type' => 'integer', 'description' => 'The HTTP status.', 'example' => 404, '_context' => $context]),
                 new OA\Property(['property' => 'status', 'type' => 'string', 'description' => 'The type of error.',
-                    'enum' => [...array_values(self::ERROR_STATUSES), 'SERVER_ERROR'], '_context' => $context]),
+                    'enum' => [...array_values(self::ERROR_STATUSES), 'SERVER_ERROR'], 'example' => 'RESOURCE_NOT_FOUND', '_context' => $context]),
                 new OA\Property(['property' => 'data', 'type' => 'string', 'description' => 'A message for the client.', 'example' => 'Not found.', '_context' => $context]),
             ],
             '_context' => $context,
