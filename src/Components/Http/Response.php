@@ -5,12 +5,15 @@ use Psr\Http\Message\ResponseInterface;
 
 class Response
 {
-    public static function build(mixed $data, int $code, ?array $meta = null): array
+    /**
+     * @param string|null $status the status to name; the HTTP name from Codes when null
+     */
+    public static function build(mixed $data, int $code, ?array $meta = null, ?string $status = null): array
     {
         $envelope =
             [
                 'code' => $code,
-                'status' => Codes::getCode($code),
+                'status' => $status ?? Codes::getCode($code),
             ];
 
         // Endpoint metadata (pagination, counts) sits between status and data.
@@ -25,7 +28,22 @@ class Response
 
     public static function json(ResponseInterface $response, mixed $data, int $code, bool $cache = false, int $cacheTTL = 3600, array $cacheControlHeaders = [], ?array $meta = null): ResponseInterface
     {
-        $json = json_encode(self::build($data, $code, $meta), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        return self::send($response, self::build($data, $code, $meta), $code, $cache, $cacheTTL, $cacheControlHeaders);
+    }
+
+    /**
+     * An error in the envelope, with its status from ErrorStatus: {"code": 401, "status": "UNAUTHENTICATED", "data": $data}.
+     * Middleware that refuses a request itself answers with this, so that its status matches what
+     * kipchak/middleware-error writes for the same code.
+     */
+    public static function error(ResponseInterface $response, mixed $data, int $code): ResponseInterface
+    {
+        return self::send($response, self::build($data, $code, status: ErrorStatus::for($code)), $code);
+    }
+
+    private static function send(ResponseInterface $response, array $envelope, int $code, bool $cache = false, int $cacheTTL = 3600, array $cacheControlHeaders = []): ResponseInterface
+    {
+        $json = json_encode($envelope, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         $response->getBody()->write($json);
 
         if (empty($cacheControlHeaders)) {

@@ -100,11 +100,11 @@ final class EnvelopeTest extends TestCase
             ['properties' => ['code' => ['type' => 'integer', 'enum' => [$code]], 'status' => ['type' => 'string', 'enum' => [$status]]]],
         ]];
         $this->assertSame($error(404, 'RESOURCE_NOT_FOUND'), self::schema($document, '/v1/orders/{id}', 'get', '404'));
-        $this->assertSame($error(409, 'SERVER_ERROR'), self::schema($document, '/v1/report', 'get', '409'), 'middleware-error names any other code SERVER_ERROR');
+        $this->assertSame($error(409, 'CONFLICT'), self::schema($document, '/v1/report', 'get', '409'), 'Any other 4xx keeps its HTTP name');
         $this->assertSame(['reason' => ['type' => 'string']], self::schema($document, '/v1/orders', 'post', '400')['properties'], 'A documented error body is kept');
         $this->assertNull(self::schema($document, '/v1/raw', 'get', '404'), 'The opt-out covers errors too');
         $this->assertSame(['$ref' => '#/components/responses/Shared400'], $document['paths']['/v1/orders/{id}']['get']['responses']['400'], 'A response that is a $ref stays a bare $ref');
-        $this->assertContains('RESOURCE_NOT_FOUND', $document['components']['schemas']['Error']['properties']['status']['enum']);
+        $this->assertArrayNotHasKey('enum', $document['components']['schemas']['Error']['properties']['status'], 'Statuses are open: each operation states its own');
     }
 
     public function testTheEnvelopeSchemasHaveExamples(): void

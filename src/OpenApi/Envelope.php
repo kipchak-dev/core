@@ -3,6 +3,7 @@
 namespace Kipchak\Core\OpenApi;
 
 use Kipchak\Core\Components\Http\Codes;
+use Kipchak\Core\Components\Http\ErrorStatus;
 use OpenApi\Analysis;
 use OpenApi\Annotations as OA;
 use OpenApi\Context;
@@ -28,16 +29,8 @@ class Envelope
     public const SUCCESS = 'Success';
     public const ERROR = 'Error';
 
-    /** The status names kipchak/middleware-error gives each code; any other code is SERVER_ERROR. */
-    public const ERROR_STATUSES = [
-        400 => 'BAD_REQUEST',
-        401 => 'UNAUTHENTICATED',
-        403 => 'INSUFFICIENT_PRIVILEGES',
-        404 => 'RESOURCE_NOT_FOUND',
-        405 => 'NOT_ALLOWED',
-        429 => 'TOO_MANY_REQUESTS',
-        501 => 'NOT_IMPLEMENTED',
-    ];
+    /** The codes with Kipchak's own status names; ErrorStatus::for() names every other code. */
+    public const ERROR_STATUSES = ErrorStatus::NAMES;
 
     private const OPT_OUT = 'kipchak-envelope';
 
@@ -132,7 +125,7 @@ class Envelope
                     new OA\Schema([
                         'properties' => [
                             new OA\Property(['property' => 'code', 'type' => 'integer', 'enum' => [$code], '_context' => $context]),
-                            new OA\Property(['property' => 'status', 'type' => 'string', 'enum' => [self::ERROR_STATUSES[$code] ?? 'SERVER_ERROR'], '_context' => $context]),
+                            new OA\Property(['property' => 'status', 'type' => 'string', 'enum' => [ErrorStatus::for($code)], '_context' => $context]),
                         ],
                         '_context' => $context,
                     ]),
@@ -242,8 +235,10 @@ class Envelope
             'required' => ['code', 'status', 'data'],
             'properties' => [
                 new OA\Property(['property' => 'code', 'type' => 'integer', 'description' => 'The HTTP status.', 'example' => 404, '_context' => $context]),
-                new OA\Property(['property' => 'status', 'type' => 'string', 'description' => 'The type of error.',
-                    'enum' => [...array_values(self::ERROR_STATUSES), 'SERVER_ERROR'], 'example' => 'RESOURCE_NOT_FOUND', '_context' => $context]),
+                new OA\Property(['property' => 'status', 'type' => 'string', 'example' => 'RESOURCE_NOT_FOUND', '_context' => $context,
+                    'description' => 'The type of error: BAD_REQUEST, UNAUTHENTICATED, INSUFFICIENT_PRIVILEGES, RESOURCE_NOT_FOUND, NOT_ALLOWED, '
+                        . 'TOO_MANY_REQUESTS or NOT_IMPLEMENTED; SERVER_ERROR for any other 5xx; the HTTP name, such as CONFLICT, for any other 4xx. '
+                        . 'Each operation states its own.']),
                 new OA\Property(['property' => 'data', 'type' => 'string', 'description' => 'A message for the client.', 'example' => 'Not found.', '_context' => $context]),
             ],
             '_context' => $context,
