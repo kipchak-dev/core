@@ -239,6 +239,10 @@ class Envelope
                     'description' => 'The type of error: BAD_REQUEST, UNAUTHENTICATED, INSUFFICIENT_PRIVILEGES, RESOURCE_NOT_FOUND, NOT_ALLOWED, '
                         . 'TOO_MANY_REQUESTS or NOT_IMPLEMENTED; SERVER_ERROR for any other 5xx; the HTTP name, such as CONFLICT, for any other 4xx. '
                         . 'Each operation states its own.']),
+                new OA\Property(['property' => 'meta', 'type' => 'object', 'description' => 'For a request body that is not valid: what is wrong with each field, under errors, by the same field names and paths as the message in data.', '_context' => $context,
+                    'example' => ['errors' => ['title' => ['Must be at least 1 character.']]],
+                    'properties' => [new OA\Property(['property' => 'errors', 'type' => 'object', '_context' => $context,
+                        'additionalProperties' => new OA\AdditionalProperties(['type' => 'array', 'items' => new OA\Items(['type' => 'string', '_context' => $context]), '_context' => $context])])]]),
                 new OA\Property(['property' => 'data', 'type' => 'string', 'description' => 'A message for the client.', 'example' => 'Not found.', '_context' => $context]),
             ],
             '_context' => $context,
