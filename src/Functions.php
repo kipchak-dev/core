@@ -26,16 +26,18 @@ function config(string $file): array
 
 /**
  * @param string $name Name of the environment variable to return
- * @param string $default This will be returned if the environment variable does not exist
+ * @param string $default This will be returned if the environment variable does not exist or is empty
  * @return string
  */
 function env(string $name, string $default): string
 {
-    if (getenv($name)) {
-        return getenv($name);
+    // "0" is a value like any other (before 3.21 it gave the default, so DEBUG=0 could not turn a default of true off).
+    $value = getenv($name);
+    if ($value === false || $value === '') {
+        return $default;
     }
 
-    return $default;
+    return $value;
 }
 
 /**
