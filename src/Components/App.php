@@ -25,8 +25,9 @@ class App extends Slim\App
 
     /**
      * Registers work to run once, after the current response has been sent, such as an upload the client need not
-     * wait for. It runs at the next terminate(), after the onTerminate() callbacks, and is then forgotten, so in
-     * FrankenPHP worker mode it never runs again for a later request. A callback registered while terminate() is
+     * wait for. It runs at the next terminate(), before the onTerminate() callbacks, so that start-up work such as a
+     * telemetry export sees what it recorded, and is then forgotten: in FrankenPHP worker mode it never runs again
+     * for a later request. A callback registered while terminate() is
      * running belongs to the next request.
      */
     public function afterResponse(callable $callback): void
@@ -35,8 +36,9 @@ class App extends Slim\App
     }
 
     /**
-     * Runs the callbacks registered with onTerminate(), in the order registered, then those registered with
-     * afterResponse() for this request, which are forgotten before they run. Call it after the response has been
+     * Runs the callbacks registered with afterResponse() for this request, which are forgotten before they run, then
+     * those registered with onTerminate(), each list in the order registered. The onTerminate() callbacks run last
+     * so that an export among them includes what this request's callbacks recorded. Call it after the response has been
      * sent: in FrankenPHP worker mode, after frankenphp_handle_request() returns. A callback that throws does not
      * stop the others; its exception is reported through error_log().
      */
@@ -44,7 +46,7 @@ class App extends Slim\App
     {
         $once = $this->afterResponse;
         $this->afterResponse = [];
-        foreach ([...$this->terminating, ...$once] as $callback) {
+        foreach ([...$once, ...$this->terminating] as $callback) {
             try {
                 $callback();
             } catch (Throwable $exception) {

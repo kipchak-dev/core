@@ -50,8 +50,8 @@ class TerminateTest extends TestCase
         $this->assertSame(3, $calls);
     }
 
-    /** Start-up callbacks run first, then this request's, each in the order registered. */
-    public function testStartUpCallbacksRunBeforeThisRequestsCallbacks()
+    /** This request's callbacks run first, then the start-up callbacks, each in the order registered. */
+    public function testThisRequestsCallbacksRunBeforeStartUpCallbacks()
     {
         $app = AppFactory::create();
         $calls = [];
@@ -60,7 +60,26 @@ class TerminateTest extends TestCase
         $app->afterResponse(function () use (&$calls) { $calls[] = 'request 2'; });
 
         $app->terminate();
-        $this->assertSame(['start-up', 'request', 'request 2'], $calls);
+        $this->assertSame(['request', 'request 2', 'start-up'], $calls);
+    }
+
+    /**
+     * C6: what an afterResponse() callback records is exported by a start-up export callback in the same
+     * terminate(), not left for the next request (a quiet worker might never have one).
+     */
+    public function testAStartUpExportSeesWhatThisRequestsCallbackRecorded()
+    {
+        $app = AppFactory::create();
+        $recorded = [];
+        $exported = [];
+        $app->onTerminate(function () use (&$recorded, &$exported) {
+            array_push($exported, ...$recorded);
+            $recorded = [];
+        });
+        $app->afterResponse(function () use (&$recorded) { $recorded[] = 'upload span'; });
+
+        $app->terminate();
+        $this->assertSame(['upload span'], $exported);
     }
 
     /** C3: an afterResponse() callback that throws does not stop the next one, and nothing is left behind. */

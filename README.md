@@ -74,7 +74,8 @@ for (;;) {
 ```
 
 `App::afterResponse()` (from 3.24) registers work for the current request only, such as an upload the client need
-not wait for. It runs once, at the next `terminate()`, after the `onTerminate()` callbacks, and is then forgotten.
+not wait for. It runs once, at the next `terminate()`, before the `onTerminate()` callbacks (so a telemetry export
+among them includes it), and is then forgotten.
 A callback registered while `terminate()` is running belongs to the next request. In worker mode, register
 per-request work this way, not with `onTerminate()`, which would run it again after every later request.
 
