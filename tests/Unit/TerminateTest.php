@@ -22,6 +22,80 @@ class TerminateTest extends TestCase
         $this->assertSame(['first', 'third'], $calls);
     }
 
+    /** C1: a callback registered with afterResponse() during request 1 runs once, after request 1 only. */
+    public function testAfterResponseRunsOnceAfterItsOwnRequest()
+    {
+        $app = AppFactory::create();
+        $calls = 0;
+        $app->afterResponse(function () use (&$calls) { $calls++; });
+
+        $app->terminate();
+        $this->assertSame(1, $calls, 'runs after its own request');
+        $app->terminate();
+        $app->terminate();
+        $this->assertSame(1, $calls, 'never again after later requests');
+    }
+
+    /** C2: a callback registered with onTerminate() at start-up runs after every request (telemetry relies on it). */
+    public function testOnTerminateStillRunsAfterEveryRequest()
+    {
+        $app = AppFactory::create();
+        $calls = 0;
+        $app->onTerminate(function () use (&$calls) { $calls++; });
+        $app->afterResponse(function () {});
+
+        $app->terminate();
+        $app->terminate();
+        $app->terminate();
+        $this->assertSame(3, $calls);
+    }
+
+    /** Start-up callbacks run first, then this request's, each in the order registered. */
+    public function testStartUpCallbacksRunBeforeThisRequestsCallbacks()
+    {
+        $app = AppFactory::create();
+        $calls = [];
+        $app->afterResponse(function () use (&$calls) { $calls[] = 'request'; });
+        $app->onTerminate(function () use (&$calls) { $calls[] = 'start-up'; });
+        $app->afterResponse(function () use (&$calls) { $calls[] = 'request 2'; });
+
+        $app->terminate();
+        $this->assertSame(['start-up', 'request', 'request 2'], $calls);
+    }
+
+    /** C3: an afterResponse() callback that throws does not stop the next one, and nothing is left behind. */
+    public function testAThrowingAfterResponseCallbackDoesNotStopTheRestAndLeavesNothingBehind()
+    {
+        $app = AppFactory::create();
+        $calls = [];
+        $app->afterResponse(function () { throw new \RuntimeException('boom'); });
+        $app->afterResponse(function () use (&$calls) { $calls[] = 'second'; });
+
+        $log = ini_set('error_log', '/dev/null');
+        $app->terminate();
+        $app->terminate();
+        ini_set('error_log', $log === false ? '' : $log);
+
+        $this->assertSame(['second'], $calls);
+    }
+
+    /** C4: a callback registered while terminate() runs belongs to the next request, and runs once there. */
+    public function testAfterResponseRegisteredDuringTerminateRunsAtTheNextTerminate()
+    {
+        $app = AppFactory::create();
+        $calls = [];
+        $app->afterResponse(function () use ($app, &$calls) {
+            $calls[] = 'first';
+            $app->afterResponse(function () use (&$calls) { $calls[] = 'registered during terminate'; });
+        });
+
+        $app->terminate();
+        $this->assertSame(['first'], $calls, 'not in the same pass');
+        $app->terminate();
+        $app->terminate();
+        $this->assertSame(['first', 'registered during terminate'], $calls, 'once, at the next terminate');
+    }
+
     public function testTerminateWithoutCallbacksDoesNothing()
     {
         AppFactory::create()->terminate();

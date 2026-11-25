@@ -58,9 +58,10 @@ frankenphp_handle_request(function () use ($app) {
 
 ### Work after the response
 
-`App::onTerminate()` registers work to run after the response has been sent, such as exporting telemetry, so
-that it does not delay the client. The worker loop calls `$app->terminate()` after each request (the starter
-project does from 3.19); a callback that throws does not stop the others, and its error goes to `error_log()`.
+`App::onTerminate()` registers work to run after every response, such as exporting telemetry, so that it does
+not delay the client. Register it once, at start-up: the worker loop calls `$app->terminate()` after each request
+(the starter project does from 3.19), and that runs every `onTerminate()` callback each time. A callback that
+throws does not stop the others, and its error goes to `error_log()`.
 
 ```php
 $app->onTerminate(fn () => $metrics->flush());
@@ -70,6 +71,15 @@ for (;;) {
     $app->terminate();
     if (!$keepRunning) break;
 }
+```
+
+`App::afterResponse()` (from 3.24) registers work for the current request only, such as an upload the client need
+not wait for. It runs once, at the next `terminate()`, after the `onTerminate()` callbacks, and is then forgotten.
+A callback registered while `terminate()` is running belongs to the next request. In worker mode, register
+per-request work this way, not with `onTerminate()`, which would run it again after every later request.
+
+```php
+$app->afterResponse(fn () => $storage->upload($key, $pdf));
 ```
 
 ### `Api::bootCli()`
